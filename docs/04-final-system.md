@@ -15,11 +15,12 @@ After completing the temporary tools build, I prepared to chroot into the LFS pa
   mount -vt proc proc $LFS/proc
   mount -vt sysfs sysfs $LFS/sys
   mount -vt tmpfs tmpfs $LFS/run
-```
+  ```
 
 After preparing the virtual filesystems, I entered the `chroot` environment using the standard command from the book:
 
-```
+
+```bash
 chroot "$LFS" /usr/bin/env -i \
     HOME=/root TERM="$TERM" PS1='(lfs chroot) \u:\w\$ ' \
     PATH=/usr/bin:/usr/sbin \
@@ -67,15 +68,16 @@ Several critical configuration files were created before rebooting:
 > Note: I did not create a regular user because LFS doesn’t include a sudo program. Operating as `root` was necessary for system access until I add sudo and user management via BLFS later.
 
 ---
+
 Initially, I installed GRUB to `/dev/vda`:
 
-```
+```bash
 grub-install /dev/vda --target=i386-pc --force
 ```
 
 However, I made an error in the initial `grub.cfg` which caused GRUB to drop into rescue mode on first boot. The mistake was specifying an incorrect device/partition path. After identifying the issue, I edited the configuration:
 
-```
+```bash
 sudo vim /boot/grub/grub.cfg
 ```
 
